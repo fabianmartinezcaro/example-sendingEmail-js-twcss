@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // VARIABLES FORMULARIO
     const inputEmail = document.querySelector('#email');
+    const inputCC = document.querySelector('#cc');
     const inputAsunto = document.querySelector('#asunto');
     const inputMensaje = document.querySelector('#mensaje');
     const formulario = document.querySelector('#formulario');
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const spinner = document.querySelector('#spinner');
 
     inputEmail.addEventListener('input', validarInputs);
+    inputCC.addEventListener('input', validarInputs);
     inputAsunto.addEventListener('input', validarInputs);
     inputMensaje.addEventListener('input', validarInputs);
 
@@ -43,6 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if(data.target.id === 'cc' && !validarEmail(data.target.value)){
+            mostrarAlerta('El email no es valido', data.target.parentElement);
+            email[data.target.name] = '';
+            return;
+        }
+
         limpiarAlerta(data.target.parentElement);
 
         email[data.target.name] = data.target.value.trim().toLowerCase();
@@ -59,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Generamos la alerta en el HTML
         const mensajeAlerta = document.createElement('DIV');
         mensajeAlerta.textContent = mensaje;
-        mensajeAlerta.classList.add('bg-red-600', 'p-2', 'rounded-md', 'text-white');
+        mensajeAlerta.classList.add('bg-red-600', 'p-2', 'rounded-lg', 'text-white');
 
         // Inyectamos el mensaje de error en el formulario con referencia a los elementoss
         referencia.appendChild(mensajeAlerta);
@@ -106,10 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
             resetFormulario();
 
         const alertaExito = document.createElement('DIV');
-        alertaExito.classList.add('text-black', 'p-2', 'mt-10');
+        alertaExito.classList.add('bg-green-500', 'text-white', 'p-2', 'mt-10', 'uppercase', 'text-center', 'text-sm', 'rounded-lg');
         alertaExito.textContent = "Email enviado correctamente!";
 
         formulario.appendChild(alertaExito);
+
+        setTimeout(() => {
+            alertaExito.remove();
+        }, 3000);
 
         }, 3000);
 
