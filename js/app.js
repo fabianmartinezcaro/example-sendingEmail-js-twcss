@@ -12,12 +12,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputMensaje = document.querySelector('#mensaje');
     const formulario = document.querySelector('#formulario');
     const buttonSubmit = document.querySelector('#formulario button[type="submit"]')
+    const buttonReset = document.querySelector('#formulario button[type="reset"]')
 
-    inputEmail.addEventListener('blur', validarInputs)
-    inputAsunto.addEventListener('blur', validarInputs)
-    inputMensaje.addEventListener('blur', validarInputs)
+    inputEmail.addEventListener('input', validarInputs)
+    inputAsunto.addEventListener('input', validarInputs)
+    inputMensaje.addEventListener('input', validarInputs)
 
-    // buttonSubmit.addEventListener('click')
+    buttonReset.addEventListener('click', evento => {
+        evento.preventDefault();
+
+        // Reiniciar el objeto
+        email.email = '';
+        email.asunto = '';
+        email.mensaje = '';
+
+        formulario.reset();
+        comprobarEnvioEmail();
+    })
 
 
     function validarInputs(data) {
@@ -39,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
         limpiarAlerta(data.target.parentElement);
 
         email[data.target.name] = data.target.value.trim().toLowerCase();
-        console.log(email);
 
         comprobarEnvioEmail();
 
@@ -80,10 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if(Object.values(email).includes('')){
             buttonSubmit.classList.add('opacity-50');
             buttonSubmit.disabled = true;
-        }else{
-            buttonSubmit.classList.remove('opacity-50');
-            buttonSubmit.disabled = false;
+            return;
         }
+        
+        buttonSubmit.classList.remove('opacity-50');
+        buttonSubmit.disabled = false;
     }
 
 
