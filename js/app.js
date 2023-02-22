@@ -32,10 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function validarInputs(data) {
 
         if(data.target.value.trim() === ''){
+            // IF para destinatarios secundarios (campo opcional)
+            if(data.target.id === 'cc'){
+                email[data.target.name] = '';
+                return;
+            }
+
             mostrarAlerta(`El campo ${data.target.id} es obligatorio.`, data.target.parentElement);
             email[data.target.name] = '';
             comprobarEnvioEmail();
             return;
+
         }
 
         if(data.target.id === 'email' && !validarEmail(data.target.value)){
